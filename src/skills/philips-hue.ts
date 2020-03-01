@@ -42,7 +42,7 @@ export class PhilipsHue implements Skill {
     if (name === 'all') {
       return Object.keys(lamps);
     }
-    return Object.entries(lamps).filter(([id, lamp]) => lamp.name === name).map(([id]) => id)
+    return Object.entries(lamps).filter(([id, lamp]) => lamp.name.toLowerCase() === name.toLowerCase()).map(([id]) => id)
   }
 
   async execute(event: IntentEvent) {

@@ -1,7 +1,7 @@
 import { Skill } from "./skill";
 
 export class Spotify implements Skill {
-  intent = ['GetTime'];
+  intent = ['PlaySpotify'];
   
   async execute() {
     return {
