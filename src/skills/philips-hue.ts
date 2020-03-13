@@ -23,7 +23,7 @@ export class PhilipsHue implements Skill {
     return fetch(`http://${ip}/api/${this.#username}/lights/${id}/state`, { method: 'PUT', body: JSON.stringify(state) }).then(r => r.json());
   }
 
-  private getContext(event: IntentEvent) {
+  private getContext(event: IntentEvent<string>) {
     const context = {
       name: '',
       state: true
@@ -45,7 +45,7 @@ export class PhilipsHue implements Skill {
     return Object.entries(lamps).filter(([id, lamp]) => lamp.name.toLowerCase() === name.toLowerCase()).map(([id]) => id)
   }
 
-  async execute(event: IntentEvent) {
+  async execute(event: IntentEvent<string>) {
     if (!this.#username) {
       return {
         say: 'You need to create a user id before you can continue'

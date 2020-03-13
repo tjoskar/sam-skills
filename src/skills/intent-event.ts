@@ -1,6 +1,6 @@
-export interface Entity {
+export interface Entity<V = unknown> {
   entity: string
-  value: string
+  value: V
   raw_value: string
   start: number
   raw_start: number
@@ -10,13 +10,13 @@ export interface Entity {
   raw_tokens: string[]
 }
 
-export interface IntentEvent {
+export interface IntentEvent<Ev = unknown> {
   intent: {
     name: string,
     // Between 0 and 1 (inclusive)
     confidence: number
   },
-  entities: Entity[],
+  entities: Entity<Ev>[],
   text: string,
   raw_text: string,
   recognize_seconds: number,

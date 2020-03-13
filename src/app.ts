@@ -15,12 +15,8 @@ intentWs.on('close', () => console.log('\n**Disconnected**\n'));
 wakeWs.on('open', () => console.log('\n**Connected**\n'));
 wakeWs.on('close', () => console.log('\n**Disconnected**\n'));
 
-wakeWs.on('message', () => {
-  // Start a blue pulse effect when wake word is detected
-  led.pulse({ b: 10 });
-});
+wakeWs.on('message', () => led.pulse({ b: 10 }));
 
-// Intents are passed through here
 intentWs.on('message', async data => {
   const intentEvent: IntentEvent = JSON.parse(data.toString());
 
