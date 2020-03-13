@@ -1,0 +1,16 @@
+[Unit]
+Description=Sam
+
+[Service]
+ExecStart=/home/pi/sam/dist/app.js
+Restart=always
+User=nobody
+Group=nogroup
+Environment=PATH=/usr/bin:/usr/local/bin
+Environment=NODE_ENV=production
+Environment=WOLFRAM_APPID=''
+Environment=PHILIPS_HUE_USERID=''
+WorkingDirectory=/home/pi/sam/dist
+
+[Install]
+WantedBy=multi-user.target

@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 import WebSocket from 'ws';
 import { Led } from './led';
 import { say } from './say';

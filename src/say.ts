@@ -4,19 +4,19 @@ import { request } from 'http';
 export function say(text: string): Promise<void> {
   return new Promise(resolve => {
     const options = {
-      hostname: "localhost",
+      hostname: 'localhost',
       port: 12101,
-      path: "/api/text-to-speech",
-      method: "POST"
+      path: '/api/text-to-speech',
+      method: 'POST'
     };
-  
+
     const req = request(options, () => resolve());
-  
-    req.on("error", error => {
+
+    req.on('error', error => {
       console.error(error);
     });
-  
+
     req.write(text);
     req.end();
-  })
+  });
 }

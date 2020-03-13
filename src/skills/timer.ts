@@ -29,12 +29,12 @@ export class Timer implements Skill {
     }
     if (minute === 1) {
       namePart.push('one minute')
-    } else if (hour > 1) {
+    } else if (minute > 1) {
       namePart.push(`${minute} minutes`)
     }
     if (second === 1) {
       namePart.push('one second')
-    } else if (hour > 1) {
+    } else if (second > 1) {
       namePart.push(`${second} seconds`)
     }
     if (namePart.length === 3) {
