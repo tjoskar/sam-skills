@@ -7,7 +7,7 @@ export class Status implements Skill {
   async execute() {
     const { temperature } = humidity.read();
     return {
-      say: `I'm ${temperature} degrees warm`
+      say: `I'm ${temperature} degrees warm`,
     };
   }
 }

@@ -7,9 +7,9 @@ export class UselessFacts implements Skill {
   async execute() {
     const result = await fetch(
       'https://useless-facts.sameerkumar.website/api'
-    ).then(r => r.json());
+    ).then((r) => r.json());
     return {
-      say: result.data
+      say: result.data,
     };
   }
 }

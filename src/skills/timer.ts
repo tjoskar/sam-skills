@@ -1,5 +1,5 @@
-import { Skill } from "./skill";
-import { IntentEvent } from "./intent-event";
+import { Skill } from './skill';
+import { IntentEvent } from './intent-event';
 
 export class Timer implements Skill {
   intent = ['SetTimer', 'CheckTimer', 'CancelTimer'];
@@ -12,7 +12,9 @@ export class Timer implements Skill {
 
   private timerDone(timer: ITimer) {
     this.#say(`The wait is over. The timer for ${timer.name} is done`);
-    this.#ongoingTimers = this.#ongoingTimers.filter(t => t.timeoutId !== timer.timeoutId);
+    this.#ongoingTimers = this.#ongoingTimers.filter(
+      (t) => t.timeoutId !== timer.timeoutId
+    );
   }
 
   private unixTimestap() {
@@ -23,26 +25,26 @@ export class Timer implements Skill {
     let namePart: string[] = [];
     let name = '';
     if (hour === 1) {
-      namePart.push('one hour')
+      namePart.push('one hour');
     } else if (hour > 1) {
-      namePart.push(`${hour} hours`)
+      namePart.push(`${hour} hours`);
     }
     if (minute === 1) {
-      namePart.push('one minute')
+      namePart.push('one minute');
     } else if (minute > 1) {
-      namePart.push(`${minute} minutes`)
+      namePart.push(`${minute} minutes`);
     }
     if (second === 1) {
-      namePart.push('one second')
+      namePart.push('one second');
     } else if (second > 1) {
-      namePart.push(`${second} seconds`)
+      namePart.push(`${second} seconds`);
     }
     if (namePart.length === 3) {
-      name = `${namePart[0]}, ${namePart[1]} and ${namePart[2]}`
+      name = `${namePart[0]}, ${namePart[1]} and ${namePart[2]}`;
     } else if (namePart.length === 2) {
-      name = `${namePart[0]} and ${namePart[1]}`
+      name = `${namePart[0]} and ${namePart[1]}`;
     } else {
-      name = namePart[0]
+      name = namePart[0];
     }
     return name;
   }
@@ -61,48 +63,52 @@ export class Timer implements Skill {
     const now = this.unixTimestap();
     const diff = now - started;
     const hour = (diff / 60 / 60) | 0;
-    const minute = (diff - hour * 60 * 60) / 60 | 0;
-    const second = (diff - hour * 60 * 60 - minute * 60);
+    const minute = ((diff - hour * 60 * 60) / 60) | 0;
+    const second = diff - hour * 60 * 60 - minute * 60;
     return this.timeToString(hour, minute, second);
   }
-  
+
   async execute(event: IntentEvent<number>) {
     switch (event.intent.name) {
       case 'SetTimer':
         const timer = this.startTimer(
-          event.entities.find(e => e.entity === 'hours')?.value || 0,
-          event.entities.find(e => e.entity === 'minutes')?.value || 0,
-          event.entities.find(e => e.entity === 'seconds')?.value || 0,
+          event.entities.find((e) => e.entity === 'hours')?.value || 0,
+          event.entities.find((e) => e.entity === 'minutes')?.value || 0,
+          event.entities.find((e) => e.entity === 'seconds')?.value || 0
         );
         return {
-          say: `A timer has been started for ${timer.name}`
-        }
+          say: `A timer has been started for ${timer.name}`,
+        };
       case 'CheckTimer':
-        const timersName = this.#ongoingTimers.map(t => this.getTimeLeft(t));
+        const timersName = this.#ongoingTimers.map((t) => this.getTimeLeft(t));
         if (timersName.length === 0) {
           return {
-            say: `You don't have any ongoing timers`
-          }
+            say: `You don't have any ongoing timers`,
+          };
         } else if (timersName.length === 1) {
           return {
-            say: `There is ${timersName[0]} left on you timer`
-          }
+            say: `There is ${timersName[0]} left on you timer`,
+          };
         } else {
           return {
-            say: `You have ${timersName.length} ongoing timers. ${timersName.map((t, i) => `There is ${t} left on your ${i + 1} timer`).join(' and ')}`
-          }
+            say: `You have ${
+              timersName.length
+            } ongoing timers. ${timersName
+              .map((t, i) => `There is ${t} left on your ${i + 1} timer`)
+              .join(' and ')}`,
+          };
         }
       case 'CancelTimer':
         if (this.#ongoingTimers.length === 0) {
           return {
-            say: `You don't have any ongoing timers`
-          }
+            say: `You don't have any ongoing timers`,
+          };
         }
-        this.#ongoingTimers.forEach(t => clearTimeout(t.timeoutId!));
+        this.#ongoingTimers.forEach((t) => clearTimeout(t.timeoutId!));
         this.#ongoingTimers = [];
         return {
-          say: `I will no longer remind you`
-        }
+          say: `I will no longer remind you`,
+        };
       default:
         break;
     }
@@ -110,13 +116,13 @@ export class Timer implements Skill {
     const hours = now.getHours() + 1;
     const minutes = String(now.getMinutes()).padStart(2, '0');
     return {
-      say: `The time is ${hours}, ${minutes}`
-    }
+      say: `The time is ${hours}, ${minutes}`,
+    };
   }
 }
 
 interface ITimer {
   name: string;
   started: number; // Unix time for when the timer was started
-  timeoutId?: NodeJS.Timeout
+  timeoutId?: NodeJS.Timeout;
 }

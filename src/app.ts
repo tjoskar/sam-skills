@@ -2,7 +2,7 @@
 import WebSocket from 'ws';
 import { Led } from './led';
 import { say } from './say';
-import { handler } from './skills/skill-handler';
+import { handler, sonos } from './skills/skill-handler';
 import { IntentEvent } from './skills/intent-event';
 
 const led = new Led();
@@ -16,9 +16,12 @@ intentWs.on('close', () => console.log('\n**Disconnected**\n'));
 wakeWs.on('open', () => console.log('\n**Connected**\n'));
 wakeWs.on('close', () => console.log('\n**Disconnected**\n'));
 
-wakeWs.on('message', () => led.pulse({ b: 10 }));
+wakeWs.on('message', async () => {
+  led.pulse({ b: 10 });
+  await sonos.quiet();
+});
 
-intentWs.on('message', async data => {
+intentWs.on('message', async (data) => {
   const intentEvent: IntentEvent = JSON.parse(data.toString());
 
   console.log('**Captured New Intent**');
@@ -42,6 +45,8 @@ intentWs.on('message', async data => {
     led.pulse({ r: 10 });
     await say('Sorry, something went wrong. ' + error?.message);
   }
+
+  await sonos.restoreVolume();
 
   led.stop();
   led.clear();

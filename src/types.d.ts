@@ -15,3 +15,8 @@ declare module '@matrix-io/matrix-lite' {
   export const led: Led;
   export const humidity: Humidity;
 }
+
+declare module 'sonos' {
+  export const Sonos: any;
+  export const SpotifyRegion: any;
+}

@@ -8,7 +8,7 @@ export class CurrentTime implements Skill {
     const hours = now.getHours() + 1;
     const minutes = String(now.getMinutes()).padStart(2, '0');
     return {
-      say: `The time is ${hours}, ${minutes}`
+      say: `The time is ${hours}, ${minutes}`,
     };
   }
 }
