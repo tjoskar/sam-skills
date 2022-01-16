@@ -26,7 +26,7 @@ export class Sonos implements Skill {
 
   private async playPlaylistOnSpotify(playlist: string) {
     const device = await this.getDevice();
-    await device.AddUriToQueue(playlist);
+    await device.AddUriToQueue('spotify:playlist:37i9dQZEVXbLoATJ81JYXz');
     await device.Play();
   }
 

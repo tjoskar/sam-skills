@@ -3,7 +3,7 @@ import { IntentEvent } from './skills/intent-event';
 
 const intent: IntentEvent = {
   intent: {
-    name: 'PlayP3',
+    name: 'PlaySpotify',
     confidence: 1,
   },
   entities: [],
